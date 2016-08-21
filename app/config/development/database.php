@@ -50,8 +50,8 @@ $active_record = TRUE;
 
 $config['db']['host']	= '127.0.0.1';	 # $db['default']['hostname'];
 $config['db']['user']	= 'root';		 #$db['default']['username'];
-$config['db']['pass']	= 'vandens';			 #$db['default']['password'];
-$config['db']['db']		= 'db_simpeda'; #$db['default']['database'];
+$config['db']['pass']	= '';			 #$db['default']['password'];
+$config['db']['db']		= 'simpeda'; #$db['default']['database'];
 
 $db['default']['hostname'] = $config['db']['host'];
 $db['default']['username'] = $config['db']['user'];
