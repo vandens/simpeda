@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Informasi Akun Pengguna</title>
+	<link href="[[BASE_URL]]media/css/bootstrap.css" rel="stylesheet" media="screen">
+
+</head>
+<body>
+<div class="container" style="background-color:gray;">
+	<div style="display:block;min-height:10px;background-color:darkblue;"></div>
+	<div class="well" style="padding:10px;">
+
+	[[HEADER]]
+	<hr>
+	<h4><i>User Email Reset Password Services</i></h4>
+	<div class="panel" style="padding:15px;">
+	<p align='justify'><b>Hi [[USER_FULLNAME]]</b>,</p>
+	<p align='justify'>Data Anda berhasil didaftarkan sebagai [[GROUP_ID]] di [[APP_NAME]], Berikut ini adalah data akun pengguna Anda :</p>
+
+	<table align="center" border="0" cellpadding="1" cellspacing="1">
+		<tbody>
+			<tr>
+				<td width='125px'>ID Pengguna</td>
+				<td width='25px'>:</td>
+				<td>[[USER_ID]]</td>
+			</tr>
+			<tr>
+				<td>Group Pengguna</td>
+				<td>:</td>
+				<td>[[GROUP_ID]]</td>
+			</tr>
+			<tr>
+				<td>Kata Sandi</td>
+				<td>:</td>
+				<td>[[USER_PASS]]</td>
+			</tr>
+		</tbody>
+	</table>
+	<br>
+	<p align='justify'>Silahkan kunjungi <a href='[[BASE_URL]]'>[[APP_NAME]]</a> dan gunakan Akun tersebut untuk dapat masuk ke dalam Sistem.<br>Demi keamanan, segera lakukan perubahan data pada akun Anda.</p>
+	<p align='justify'>&nbsp;</p>
+	<p align='justify'>Terima Kasih</p>
+	<p align='justify'></p>
+	<hr />
+	<p align='justify' style="font-size:10px">Jika ada pertanyaan, silahkan kontak via email ke [[EMAIL]] <br></p>
+	</div>
+		<div style="text-align:center; font-size:10px;color:gray;">
+			<a href='[[BASE_URL]]' target="_blank" style="color:gray">Dashboard</a>   |  
+			<a href='https://facebook.com/' target="_blank" style="color:gray">Facebook</a>  |  
+			<a href='https://twitter.com' target="_blank" style="color:gray">Twitter</a> |
+			<a href='[[BASE_URL]]bantuan.html' target="_blank" style="color:gray">Bantuan ? </a>  <br>
+			Dikembangkan 2015 - <?=date('Y')?> [[APP_NAME]]<br>
+			Powered By <a href='http://codeline.biz' target="_blank" style="color:gray"><em>codeline.biz</em></a>
+		</div>
+	</div>
+</div>
+</body>
+</html>

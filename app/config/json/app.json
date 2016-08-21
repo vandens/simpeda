@@ -1,0 +1,16 @@
+{
+"app_id"		: "simpeda01",
+"app_name"		: "Sistem Informasi Pemerintah Daerah - Kecamatan Cisoka",
+"app_acronim"	: "SimPeDa-OnLine",
+"app_address"	: "Jl. Raya Cisoka - Megu No 1",
+"app_email"		: "humas@domain.com",
+"app_noreply"	: "noreply@domain.com",
+"app_logo"		: "logo.png",
+"app_enable"	: "1",
+"app_developer"	: "Code Line Development",
+"app_developer_site" : "http://codeline.biz",
+"app_region" : "Cisoka",
+"app_city" : "Tangerang",
+"app_postal" : "15720",
+"app_province" : "Banten"
+}

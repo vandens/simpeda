@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Informasi Akun Pengguna</title>
+	<link href="[[BASE_URL]]media/css/bootstrap.css" rel="stylesheet" media="screen">
+
+</head>
+<body>
+<div class="container" style="background-color:gray;">
+	<div style="display:block;min-height:10px;background-color:darkblue;"></div>
+	<div class="well" style="padding:10px;">
+
+	[[HEADER]]
+	<hr>
+	<h4><i>Postal Mail Services</i></h4>
+	<div class="panel" style="padding:15px;">
+	<p align='justify'><b>Hi [[ACTOR]]</b>,</p>
+	<p align='justify'>Data atas nama [[USER_FULLNAME]] telah terdaftar di [[APP_NAME]], Berikut ini adalah data akun penggunanya :</p>
+
+	<table align="center" border="0" cellpadding="1" cellspacing="1">
+		<tbody>
+			<tr>
+				<td width='125px'>ID Pengguna</td>
+				<td width='25px'>:</td>
+				<td>[[USER_ID]]</td>
+			</tr>
+			<tr>
+				<td>Group Pengguna</td>
+				<td>:</td>
+				<td>[[GROUP_ID]]</td>
+			</tr>
+			<tr>
+				<td>Kata Sandi</td>
+				<td>:</td>
+				<td>[[USER_PASS]]</td>
+			</tr>
+		</tbody>
+	</table>
+	<br>
+	<p align='justify'>Silahkan informasikan Akun tersebut kepada [[USER_FULLNAME]] untuk dapat masuk ke dalam sistem.<br>Demi keamanan akun tersebut, ingatkan [[USER_FULLNAME]] untuk segera lakukan perubahan data pada akunnya.</p>
+	<p align='justify'>&nbsp;</p>
+	<p align='justify'>Terima Kasih</p>
+	<p align='justify'></p>
+	<hr />
+	<p align='justify' style="font-size:10px">Jika ada pertanyaan, silahkan kontak via email ke [[EMAIL]] <br></p>
+	</div>
+		<div style="text-align:center; font-size:10px;color:gray;">
+			<a href='[[BASE_URL]]' target="_blank" style="color:gray">Dashboard</a>   |  
+			<a href='https://facebook.com/' target="_blank" style="color:gray">Facebook</a>  |  
+			<a href='https://twitter.com' target="_blank" style="color:gray">Twitter</a> |
+			<a href='[[BASE_URL]]bantuan.html' target="_blank" style="color:gray">Bantuan ? </a>  <br>
+			Dikembangkan 2015 - <?=date('Y')?> [[APP_NAME]]<br>
+			Powered By <a href='http://codeline.biz' target="_blank" style="color:gray"><em>codeline.biz</em></a>
+		</div>
+	</div>
+</div>
+</body>
+</html>
