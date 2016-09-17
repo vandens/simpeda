@@ -12,7 +12,7 @@
 						</h2>		
 						<?php
 						echo '<b class="">'.$this->_setting->app_name.'</b><br> ';
-						echo $this->_setting->app_address.', '.$this->_setting->app_email; 
+						#echo $this->_setting->app_address.', '.$this->_setting->app_email; 
 						?>
 						
 					</center>

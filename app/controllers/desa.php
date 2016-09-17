@@ -49,18 +49,21 @@ class Desa extends CI_Controller {
 	private function get_temp($data,$key =''){
 
 		if(! empty($key)){
-			$sql 	= $this->db->get_where('m_village',array('village_code'=>$key))->result();
+			$sql 	= $this->db->get_where('m_village',array('village_id'=>$key))->result();
 			foreach($sql as $row)
 				foreach($row as $r => $w)
 					$data[$r] = $w;
-
-			$json_data		= $this->desa_model->json_to_single(strtolower(str_replace(' ', '', $data['village_name'])));	
-			foreach($json_data as $json => $val)
-				$data['data'][$json] 	= $val;
+			
+			$json_data		= json_decode($data['village_monografi']); //$this->desa_model->json_to_single(strtolower(str_replace(' ', '', $data['village_name'])));	
+			
+		}else{
+			$json_data 		= json_decode(read_file(APPPATH.'/config/json/temp.json'));
 		}
-
-		$data['temp']		= $this->desa_model->json_to_temp();
-
+			
+		foreach($json_data as $json => $val)
+				$data['data'][$json] 	= $val;
+		
+		$data['temp']		= $this->desa_model->json_to_temp($json_data);
 		$data['tab_profil']	= $this->load->view('bo/desa/tab_profil',$data,true);	
 		$data['tab_wilayah']= $this->load->view('bo/desa/tab_wilayah',$data,true);
 		$data['tab_pertanahan']= $this->load->view('bo/desa/tab_pertanahan',$data,true);
@@ -69,20 +72,20 @@ class Desa extends CI_Controller {
 	}
 
 	public function form($key)
-	{  
+	{
 		if(!$this->session->userdata('user_islogin')) redirect(base_url('login'));
 
-		$view 				= ((!$this->session->userdata('admin') AND !empty($key) AND $this->_priv->DESC || $this->_priv->DESU AND $this->session->userdata('village_code') == $key) || ($this->session->userdata('admin') AND $this->_priv->DESC || $this->_priv->DESU)) ? strtolower('bo/'.__CLASS__.'/form') : 'bo/temp/no_access'; // cek privi READ
+		$view 				= ((!$this->session->userdata('admin') AND !empty($key) AND $this->_priv->DESC || $this->_priv->DESU AND $this->session->userdata('village_id') == $key) || ($this->session->userdata('admin') AND $this->_priv->DESC || $this->_priv->DESU)) ? strtolower('bo/'.__CLASS__.'/form') : 'bo/temp/no_access'; // cek privi READ
 
 		$data['sub'] 		=  empty($key) ? 'Tambah Data Desa' : 'Edit Data Desa';
 		$data['mod']		=  empty($key) ? 'DESC' : 'DESU';
 
 		$data['val']		= 'confirm';
-		$data['dlist']		= $this->general->droplist_setting(array('STA'));
-
+		$data['dlist']		= $this->general->droplist_setting(array('STA','KAB','PRO','KEC'));
+		
 		$temp 				= $this->get_temp($data,$key);
 		$data 				= array_merge($data,$temp);
-
+		
 				
 		$data['contain']	= $this->load->view($view,$data,true);
 		$this->initiate($data);
@@ -115,8 +118,7 @@ class Desa extends CI_Controller {
 				if ($this->form_validation->run() == TRUE)
 				{				
 					if($data['val'] == 'confirm'){
-						$data['val']		= 'simpan';								
-						
+						$data['val']		= 'simpan';			
 						$this->session->set_flashdata('data_desa',$data);
 						$data['confirm']	= $this->desa_model->array_to_json_view($data['data']);
 						$view 	= strtolower('bo/'.__CLASS__.'/confirm');
@@ -128,7 +130,7 @@ class Desa extends CI_Controller {
 					$data 				= array_merge($data,$post);
 					$temp 				= $this->get_temp($data);
 					$data 				= array_merge($data,$temp);
-
+					
 					$data['dlist']		= $this->general->droplist_setting(array('STA'));
 					$view = strtolower('bo/'.__CLASS__.'/form');
 				}
@@ -147,20 +149,19 @@ class Desa extends CI_Controller {
 		(!$this->session->userdata('user_islogin')) ? redirect('login') : '';
 				
 		$data 				= $this->session->flashdata('data_desa');
-
+				
 		$view 				= 'bo/temp/failed';
 		if(!$data){
 			$msg 	= 'Gagal Simpan Data,Terjadi Sessi Timeout atau Re-Post Data';
-		}elseif(!$this->_priv->DESC || !$this->_priv->DESU){
-			$msg 	= 'Mengakses halaman tidak berizin';
-			$view 	= 'bo/temp/no_access';
+		#}elseif(!$this->_priv->DESC || !$this->_priv->DESU){
+		#	$msg 	= 'Mengakses halaman tidak berizin';
+		#	$view 	= 'bo/temp/no_access';
 		}else{
 
 			try {
 					$this->db->trans_begin();
-					
-					unset($data['data']['key']);
 					unset($data['data']['submit']);
+					
 					$ret = $this->desa_model->data_proses($data['data']);
 
 					if ($this->db->trans_status() === FALSE){
@@ -227,10 +228,10 @@ class Desa extends CI_Controller {
 		$view = 'bo/temp/no_access';
 		if($this->_priv->DEST){
 
-			$sql 	= $this->db->get_where('m_village',array('village_code'=>$key))->row();
+			$sql 	= $this->db->get_where('m_village',array('village_id'=>$key))->row();
 			$name 	= strtolower(str_replace(' ', '', $sql->village_name));
 
-			$json_to_single_array	= $this->desa_model->json_to_single($name);
+			$json_to_single_array	= json_decode($sql->village_monografi); //$this->desa_model->json_to_single($name);
 
 			$data['confirm']		= $this->desa_model->array_to_json_view($json_to_single_array);
 			$view 			= strtolower('bo/'.__CLASS__.'/confirm');
@@ -242,6 +243,26 @@ class Desa extends CI_Controller {
 		$this->initiate($data);	
 	}
 	
+	
+	public function cetak($key){		
+		(!$this->session->userdata('user_islogin')) ? redirect('login') : '';	
+		
+		$view = 'bo/temp/no_access';
+		if($this->_priv->DEST){
+
+			$sql 	= $this->db->get_where('m_village',array('village_id'=>$key))->row();
+			$name 	= strtolower(str_replace(' ', '', $sql->village_name));
+
+			$json_to_single_array	= json_decode($sql->village_monografi); //$this->desa_model->json_to_single($name);
+
+			$data['data']		= $this->desa_model->array_to_json_view($json_to_single_array);
+			$view 			= strtolower('bo/'.__CLASS__.'/cetak');
+		}			
+		$data['header']	= $this->load->view('bo/temp/header',$data,true);	
+		$this->load->view($view,$data);
+	}
+	
+	
 	public function getdata(){
 		(!$this->session->userdata('user_islogin')) ? redirect('home') : '';
 			if($this->_priv->DESR){
@@ -249,6 +270,7 @@ class Desa extends CI_Controller {
 					$_GET['columns'][0]['search']['value'] = $this->session->userdata('village_code');	
 
 					$columns 	= array(
+						array( 'db'	=> 'village_id'),
 						array( 'db' => 'village_code', 	'dt' => 0 ),
 						array( 'db' => 'village_name', 	'dt' => 1 ),
 						array( 'db' => 'village_head', 	'dt' => 2 ),
@@ -261,7 +283,7 @@ class Desa extends CI_Controller {
 							}
 						),	
 						array(
-							'db'        => 'village_code',
+							'db'        => 'village_id',
 							'dt'        => 5,
 							'formatter' => function( $d, $baris ) {
 								$button	= '';						
@@ -275,7 +297,7 @@ class Desa extends CI_Controller {
 					);		
 				
 				$this->load->library('datatable');
-				echo json_encode($this->datatable->simple( $_GET, $this->config->item('db'), 'm_village', 'village_code', $columns ));	
+				echo json_encode($this->datatable->simple( $_GET, $this->config->item('db'), 'm_village', 'village_id', $columns ));	
 			}	
 	}
 

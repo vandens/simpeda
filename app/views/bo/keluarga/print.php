@@ -13,19 +13,19 @@ table{ font-size: 10px;  border-collapse: collapse; padding:0;}
 			<td colspan='8' class='kk'><center><b>KARTU KELUARGA</b></center></td>
 		</tr>
 		<tr>
-			<td colspan='8' style='font-size:18px;'><center><b>No. 234567856789</b></center></td>
+			<td colspan='8' style='font-size:18px;'><center><b>No. <?php echo $resident_card_no;?></b></center></td>
 		</tr>
 		<tr>
-			<td width='100px;'></td><td width='150px;'>Nama Kepala Keluarga</td>	<td width='15px;'>:</td><td><b><?php echo strtoupper($resident_name); ?></b></td>	<td></td><td  width='150'>Kecamatan</td><td width='15px;'>:</td><td  width='150;'><b><?php echo strtoupper($this->_setting->app_region); ?></b></td>
+			<td width='100px;'></td><td width='150px;'>Nama Kepala Keluarga</td>	<td width='15px;'>:</td><td><b><?php echo strtoupper($resident_name); ?></b></td>	<td></td><td  width='150'>Kecamatan</td><td width='15px;'>:</td><td  width='150;'><b><?php echo strtoupper($subdistrict); ?></b></td>
 		</tr>
 		<tr>
-			<td></td><td>Alamat</td>				<td>:</td><td><?php echo strtoupper($resident_card_village); ?></td>				<td></td><td>Kabupaten / Kota</td><td>:</td><td><?php echo strtoupper($this->_setting->app_city); ?></td>
+			<td></td><td>Alamat</td>				<td>:</td><td><?php echo strtoupper($resident_card_village); ?></td>				<td></td><td>Kabupaten / Kota</td><td>:</td><td><?php echo strtoupper($district); ?></td>
 		</tr>
 		<tr>
-			<td></td><td>RT / RW</td>				<td>:</td><td><?php echo $resident_card_village_no; ?></td>				<td></td><td>Kode Pos</td><td>:</td><td><?php echo $this->_setting->app_postal; ?></td>
+			<td></td><td>RT / RW</td>				<td>:</td><td><?php echo $resident_card_village_no; ?></td>				<td></td><td>Kode Pos</td><td>:</td><td><?php echo $postal_code; ?></td>
 		</tr>
 		<tr>
-			<td></td><td>Desa / Kelurahan</td>		<td>:</td><td><?php echo strtoupper($card[0]->village_name); ?></td>			<td></td><td>Provinsi</td><td>:</td><td><?php echo strtoupper($this->_setting->app_province); ?></td>
+			<td></td><td>Desa / Kelurahan</td>		<td>:</td><td><?php echo strtoupper($card[0]->village_name); ?></td>			<td></td><td>Provinsi</td><td>:</td><td><?php echo strtoupper($province); ?></td>
 		</tr>
 	</table>
 
@@ -133,7 +133,7 @@ table{ font-size: 10px;  border-collapse: collapse; padding:0;}
 			<td></td><td width='150px;'></td>				<td width='20px;'>: IV.</td><td>Kecamatan</td><td></td><td><b><center><u><?php echo $resident_name; ?></u></center></b></td><td></td><td><b><center><u>.........................................</u></center></b></td><td></td>
 		</tr>
 		<tr>
-			<td></td><td width='150px;'></td>				<td width='20px;'></td><td></td><td></td><td><center>Tanda Tangan/Cap Jempol</center></td><td></td><td><b><center>NIP. 123456789998865434567</center></b></td><td></td>
+			<td></td><td width='150px;'></td>				<td width='20px;'></td><td></td><td></td><td><center>Tanda Tangan/Cap Jempol</center></td><td></td><td><b><center>NIP. ..................................</center></b></td><td></td>
 		</tr>
 	</table>
 

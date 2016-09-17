@@ -115,9 +115,9 @@ class Letter_model extends CI_Model{
 		$data['[[KODE_DESA]]'] 		= strtoupper($this->session->userdata('village_code'));
 		$data['[[NAMA_DESA]]'] 		= ucwords($this->session->userdata('village_name'));
 		$data['[[NAMA_DESA_CAP]]'] 	= strtoupper($this->session->userdata('village_name'));
-		$data['[[NAMA_KEC]]']		= ucwords($this->_setting->app_region);
-		$data['[[NAMA_KAB]]']		= ucwords($this->_setting->app_city);
-		$data['[[NAMA_PROV]]']		= ucwords($this->_setting->app_province);
+		$data['[[NAMA_KEC]]']		= ucwords($this->session->userdata('subdistrict'));
+		$data['[[NAMA_KAB]]']		= ucwords($this->session->userdata('district'));
+		$data['[[NAMA_PROV]]']		= ucwords($this->session->userdata('province'));
 		$data['[[TAHUN]]']			= date('Y');
 		$data['[[TGL_LIMIT]]'] 		= date('d M Y',strtotime($data['tgl_limit']));
 		$data['[[TANGGAL]]'] 		= date('d M Y',strtotime($data['letter_date']));
@@ -170,7 +170,7 @@ class Letter_model extends CI_Model{
 	function get_letter_no(){
 
 		$sql = $this->db->select_max('letter_no','let_no')
-				->where('village_code',$this->session->userdata('village_code'))
+				->where('village_id',$this->session->userdata('village_id'))
 				->where('SUBSTR(letter_addtime,1,4)',date('Y'))
 				->get('t_letter_log')
 				->row();
@@ -182,7 +182,7 @@ class Letter_model extends CI_Model{
 	function insert_letter_log($data){
 
 		$insert 	= array('letter_no'			=> $data['letter_no'],
-							'village_code'		=> $this->session->userdata('village_code'),
+							'village_id'		=> $this->session->userdata('village_id'),
 							'letter_code'		=> $data['letter_code'],
 							'resident_no'		=> $data['resident_no1'],
 							'letter_body'		=> $data['temp'],

@@ -53,7 +53,7 @@ class Laporan extends CI_Controller {
 		
 
 		$tmp1['_id']		= 'temp1';
-		$tmp1['_label']		= array('Kode Desa','Jumlah Posting','Jumlah Surat');
+		$tmp1['_label']		= array('Kode Desa','Nama Desa','Jumlah Surat');
 		$tmp1['_sql']		= $this->report_model->model_desa();
 		
 		$data['temp'][]		= $this->load->view(strtolower('bo/'.__CLASS__.'/tmp_desa'),$tmp1,true);

@@ -64,7 +64,7 @@ class Admin extends CI_Controller {
 	}
 	function list1(){
 		
-		$d['data'] 	= $this->report_model->model_penduduk($this->session->userdata('village_code'));
+		$d['data'] 	= $this->report_model->model_penduduk($this->session->userdata('village_id'));
 		
 		return $this->load->view('bo/admin/list1',$d,true);
 	}

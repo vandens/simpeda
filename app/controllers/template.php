@@ -126,22 +126,16 @@ class Template extends CI_Controller {
 				foreach($row as $k => $v)
 					$data[$k] = $v;
 			}
-
-			
+			$sql  			= $this->db->where('village_id',$this->session->userdata('village_id'))->get('m_village')->result();
+			foreach($sql as $row){
+				foreach($row as $k => $v)
+					$data[$k] = $v;
+			}
 			$data['[[CSS]]'] 			= '';
 			$data['[[HEADER]]'] 		= $this->load->view('bo/temp/header',$data,true);
 			
 			$data['[[JUDUL]]']			= strtoupper($data['set_value']);
-			/*
-			$data['[[NOMOR]]']			= '467';
-			$data['[[KODE_DESA]]'] 		= 'CSK';
-			$data['[[NAMA_DESA]]'] 		= ucwords($this->session->userdata('village_code'));
-			$data['[[TAHUN]]']			= date('Y');
-			$data['[[TGL_LIMIT]]'] 		= date('d M Y');
-			$data['[[TANGGAL]]'] 		= date('d M Y');
-			$data['[[NAMA_SEKDES]]']	= strtoupper($this->session->userdata('village_staff'));
-			$data['[[NIP_SEKDES]]']		= $this->session->userdata('village_staff_no');
-			*/
+			
 			$data_temp					= read_file(APPPATH.'helpers/surat/'.$key.'.html');
 			$msg_content 				= strtr($data_temp,$data);
 

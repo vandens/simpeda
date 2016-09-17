@@ -33,8 +33,8 @@ class Desa_model extends CI_Model{
 		return $json;
 	}
 
-	function json_to_temp(){
-		$json 	= json_decode(file_get_contents(APPPATH.'config/json/temp.json'));
+	function json_to_temp($json){
+		#$json 	= json_decode(file_get_contents(APPPATH.'config/json/temp.json'));
 		foreach($json as $row => $val){
 			$key 	= current(explode('_', $row));
 			$param[$key][$row] 	= $val;
@@ -51,33 +51,46 @@ class Desa_model extends CI_Model{
 		return $param;
 	}
 
+	function get_id(){
+		$sql 	= $this->db->select_max('SUBSTR(village_id,2,9)','id')->where('SUBSTR(village_id,1,1)','V')->get('m_village')->row();
+		$id 	= str_pad(bcadd($sql->id,1),9,'0',STR_PAD_LEFT);
+		return 'V'.$id;		
+	}
+	
 	function data_proses($data){
-		$key 		= $data['profil_kode_desa'];
-		$cek 		= $this->db->get_where('m_village',array('village_code'=>$key))->num_rows();
-
-		$raw 		= array('village_code'		=> $data['profil_kode_desa'],
+		$key 		= $data['key'];
+		unset($data['key']);
+		$cek 		= $this->db->get_where('m_village',array('village_id'=>$key))->num_rows();
+		
+		$raw 		= array('province'			=> $data['province'],
+							'district'			=> $data['district'],
+							'subdistrict'		=> $data['subdistrict'],
+							'village_code'		=> $data['profil_kode_desa'],
 							'village_name'		=> $data['profil_nama_desa'],
 							'village_head'		=> $data['profil_kepala_desa'],
 							'village_staff'		=> $data['profil_nama_sekdes'],
 							'village_staff_no'	=> $data['profil_nip_sekdes'],
 							'village_no'		=> $data['profil_no_register'],
-							'village_address'	=> $data['profil_alamat']
+							'village_address'	=> $data['profil_alamat'],
+							'village_monografi'	=> json_encode($data),
 							);
 		if($cek > 0){ // kalo ada, maka update
 			$raw['village_updateby']		= $this->session->userdata('user_id');
 			$raw['village_updatetime']		= date('Y-m-d H:i:s');
-			$sql 		= $this->db->where('village_code',$key)
+			$sql 		= $this->db->where('village_id',$key)
 									->update('m_village',$raw);
 			
 
 		}else{ // kalo ga ada maka create new
-
+			$raw['village_id']			= $this->get_id();
+			
 			$raw['village_addby']		= $this->session->userdata('user_id');
 			$raw['village_addtime']		= date('Y-m-d H:i:s');
 			$sql 		= $this->db->insert('m_village',$raw);
 			
 		}
-
+		
+		/* change into village_monografi field
 		if($sql){
 					$filename 	= str_replace(' ', '', $data['profil_nama_desa']).'.json';
 					$json = json_encode($data);
@@ -88,7 +101,8 @@ class Desa_model extends CI_Model{
 					     $return =  'File written!'; 
 
 			}
-		return $return; 			
+		*/
+		return ($sql) ? true : false; 			
 	}
 
 	

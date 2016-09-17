@@ -1,5 +1,5 @@
 <form class="form-horizontal" id='form' method='post' action="<?php echo base_url($this->router->fetch_class().'/'.$val); ?>" role="form">										
-	<input type='hidden' name='key' value='<?php echo $village_id; ?>'>
+	<input type='hidden' name='key' value='<?php echo $profil_village_code; ?>'>
 		<div class="row">
 			<div class="col-xs-12">
 	<div class="widget-box transparent">
@@ -10,7 +10,7 @@
 			</h4>
 			<div class='pull-right'>	
 				<a data-rel='tooltip' href='javascript:history.back()' class='btn btn-success btn-white btn-round btn-sm fa fa-arrow-left'  title='Kembali' data-placement='bottom'></a>
-				<?php echo ($this->_priv->DESC || $this->_priv->DESU) ? "<button data-rel='tooltip' type='submit' name='submit' value='".$val."'  class='btn btn-danger btn-white btn-round btn-sm fa ace-icon fa fa-share-square-o'  title='Konfirmasi' data-placement='bottom'></button>" : ''; ?>
+				<?php echo ($this->_priv->DESC || $this->_priv->USEU) ? "<button data-rel='tooltip' type='submit' name='submit' value='".$val."'  class='btn btn-danger btn-white btn-round btn-sm fa ace-icon fa fa-share-square-o'  title='Konfirmasi' data-placement='bottom'></button>" : ''; ?>
 			</div>
 		</div>
 		<div class="widget-body">
@@ -26,7 +26,6 @@
 									Profil
 								</a>
 							</li>
-							
 							<li>
 								<a data-toggle="tab" href="#wilayah">
 									<i class="pink ace-icon fa fa-tachometer bigger-110"></i>
@@ -45,14 +44,12 @@
 									Pembangunan
 								</a>
 							</li>
-							
 						</ul>
 
 						<div class="tab-content">
 							<div id="profil" class="tab-pane in active" style='min-height:400px'>
 								<?php echo $tab_profil; ?>		
 							</div>
-							 
 							<div id="wilayah" class="tab-pane" style='min-height:400px'>
 								<?php echo $tab_wilayah; ?>
 							</div>
@@ -62,7 +59,6 @@
 							<div id="bangunan" class="tab-pane in" style='min-height:400px'>
 								<?php echo $tab_bangunan; ?>		
 							</div>
-							
 						</div>
 					</div>
 				</div><!-- /.col -->

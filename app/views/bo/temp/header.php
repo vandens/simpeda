@@ -1,11 +1,11 @@
 <table width='100%' style='text-align:center'>
 	<tr>
 		<td rowspan='4' width='120px;'><img width='90px' id='logo' src='<?php echo base_url(); ?>media/img/logo.png'></td>
-		<td id='kab'>PEMERINTAH KABUPATEN <?php echo strtoupper($this->_setting->app_city); ?></td>
+		<td id='kab'>PEMERINTAH KABUPATEN <?php echo strtoupper($this->session->userdata('district')); ?></td>
 		<td width='100px'></td>
 	</tr>
 	<tr>
-		<td id='kec'>KECAMATAN <?php echo strtoupper($this->_setting->app_region); ?></td> 
+		<td id='kec'>KECAMATAN <?php echo strtoupper($this->session->userdata('subdistrict')); ?></td> 
 		<td></td>
 	</tr>
 	<tr>

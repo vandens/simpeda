@@ -17,8 +17,8 @@ class Penduduk extends CI_Controller {
         $this->load->model('resident_model'); 
         $this->_setting 		= $this->general->get_app_setting();
         $this->_priv 				= $this->general->get_privi_list();
-				$this->_master_priv = $this->general->get_master_priv();
-				$this->_droplist 		= $this->resident_model->drop_list();
+		$this->_master_priv = $this->general->get_master_priv();
+		$this->_droplist 		= $this->resident_model->drop_list();
     }
 
 	public function initiate($data)
@@ -65,7 +65,7 @@ class Penduduk extends CI_Controller {
 			$data['key']		= $key;
 			$data['disabled']	= 'disabled';
 			if(!$this->session->userdata('admin'))
-				$this->db->where('village_code',$this->session->userdata('village_code'));
+				$this->db->where('village_id',$this->session->userdata('village_id'));
 			$sql 				= $this->db->where('resident_no',$key)->get('list_resident')->row();
 			foreach ($sql as $keys => $vals) {
 				$data[$keys] = $vals;
@@ -92,7 +92,7 @@ class Penduduk extends CI_Controller {
 		unset($post['submit']);
 
 		if(!$this->session->userdata('admin'))
-			$this->db->where('village_code',$this->session->userdata('village_code'));
+			$this->db->where('village_id',$this->session->userdata('village_id'));
 		$sql 				= $this->db->where('resident_no',$post['key'])->get('list_resident')->row();
 		foreach ($sql as $keys => $vals){
 			$data[$keys] = $vals;
@@ -225,7 +225,6 @@ class Penduduk extends CI_Controller {
 
 			$data['card']	= $this->resident_model->get_resident_card_list($data['resident_card_no']);
 			
-
 			$view 			= strtolower('bo/'.__CLASS__.'/detail');
 		}					
 		
@@ -260,11 +259,12 @@ class Penduduk extends CI_Controller {
 		(!$this->session->userdata('user_islogin')) ? redirect('home') : '';
 			if($this->_priv->PENR){
 				if(!$this->session->userdata('admin'))
-					$_GET['columns'][0]['search']['value'] = $this->session->userdata('village_code');
+					$_GET['columns'][0]['search']['value'] = $this->session->userdata('village_id');
 					
 
 				$columns 	= array(
-					array( 'db' => 'village_code', 		'dt' => 0 ),
+					array( 'db'	=> 'village_id'),
+					array( 'db' => 'village_name', 		'dt' => 0 ),
 					array( 'db' => 'resident_no', 		'dt' => 1 ),
 					array( 'db' => 'resident_name', 	'dt' => 2 ),
 					array(

@@ -135,7 +135,7 @@ class Surat extends CI_Controller {
 						
 						$data['letter_no']	= $this->letter_model->get_letter_no();
 						$data['temp']	 	= $this->letter_model->set_template($data); 
-
+		
 						$view 	= strtolower('bo/'.__CLASS__.'/confirm');
 					}
 				
@@ -162,6 +162,7 @@ class Surat extends CI_Controller {
 		(!$this->session->userdata('user_islogin')) ? redirect('login') : '';
 				
 		$data 				= $this->session->flashdata('data_surat');
+		
 		$view 				= 'bo/temp/failed';
 		if(!$data){
 			$msg 	= 'Gagal Simpan Data,Terjadi Sessi Timeout atau Re-Post Data';
@@ -173,7 +174,7 @@ class Surat extends CI_Controller {
 			try {
 					$this->db->trans_begin();
 					$data['val']				= 'print';			
-					$data['letter_no']	= $this->letter_model->get_letter_no();
+					$data['letter_no']			= $this->letter_model->get_letter_no();
 					$data['temp']	 			= $this->letter_model->set_template($data);
 					$this->letter_model->insert_letter_log($data);
 					$wd 								= 950;
@@ -208,7 +209,7 @@ class Surat extends CI_Controller {
 
 	public function cetak($key){
 
-		$sql 	= $this->db->get_where('t_letter_log',array('letter_no'=>$key,'village_code'=>$this->session->userdata('village_code')))->row();
+		$sql 	= $this->db->get_where('t_letter_log',array('letter_no'=>$key,'village_id'=>$this->session->userdata('village_id')))->row();
 		echo '<script>window.print()</script>';
 		echo $sql->letter_body;
 	}
@@ -293,13 +294,14 @@ class Surat extends CI_Controller {
 				}elseif($val == 'resident'){
 
 					if(!$this->session->userdata('admin'))
-					$_GET['columns'][0]['search']['value'] = $this->session->userdata('village_code');
+					$_GET['columns'][0]['search']['value'] = $this->session->userdata('village_name');
 
 					$this->pos  = $this->uri->segment(4);
 					$table 		= 'list_resident';
 					$key 		= 'resident_no';
 					$columns 	= array(
-						array( 'db' => 'village_code', 'dt' => 0 ),
+						array( 'db' => 'village_id'),
+						array( 'db' => 'village_name', 'dt' => 0 ),
 						array( 'db' => 'resident_no', 		
 							   'dt' => 1,
 							   'formatter'	=> function ($d, $baris){
@@ -312,12 +314,14 @@ class Surat extends CI_Controller {
 				}else{
 
 					if(!$this->session->userdata('admin'))
-					$_GET['columns'][0]['search']['value'] = $this->session->userdata('village_code');
-
+					$_GET['columns'][0]['search']['value'] = $this->session->userdata('village_name');
+					#$_GET['search']['value'] 	= $this->session->userdata('village_name');
+					#$_GET['search']['regex'] 	= true;
 					$table 		= 'list_letter_log';
 					$key 		= 'auto';
 					$columns 	= array(
-						array( 'db' => 'village_code', 	'dt' => 0 ),
+						#array( 'db' => 'village_id'),
+						array( 'db' => 'village_name', 	'dt' => 0 ),
 						array( 'db' => 'letter_no', 	'dt' => 1 ),
 						array( 'db' => 'letter_name',	'dt' => 2 ),
 						array( 'db' => 'resident_no',	'dt' => 3 ),

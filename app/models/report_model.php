@@ -9,18 +9,18 @@ class Report_model extends CI_Model{
 
 	function model_penduduk($key = false){
 		if($key)
-		$where 	= " WHERE X.village_code = '".$key."'";
-		$sql 	= "SELECT village_code, SUM(total_kk) AS 'total_kk', SUM(L) as 'L', SUM(P) as 'P', SUM(total_penduduk) as 'total_penduduk' FROM (
-					SELECT b.village_code, '0' AS 'total_kk', count(resident_sex) as 'L', '0' AS 'P', '0' as total_penduduk FROM m_resident a JOIN m_resident_card b ON a.resident_card_no = b.resident_card_no WHERE a.resident_sex = 'L' GROUP BY village_code, resident_sex
+		$where 	= " WHERE X.village_id = '".$key."'";
+		$sql 	= "SELECT village_id, SUM(total_kk) AS 'total_kk', SUM(L) as 'L', SUM(P) as 'P', SUM(total_penduduk) as 'total_penduduk' FROM (
+					SELECT b.village_id, '0' AS 'total_kk', count(resident_sex) as 'L', '0' AS 'P', '0' as total_penduduk FROM m_resident a JOIN m_resident_card b ON a.resident_card_no = b.resident_card_no WHERE a.resident_sex = 'L' GROUP BY village_id, resident_sex
 					UNION
-					SELECT b.village_code, '0' AS 'total_kk', '0' AS 'L', count(resident_sex) as 'P', '0' as total_penduduk FROM m_resident a JOIN m_resident_card b ON a.resident_card_no = b.resident_card_no WHERE a.resident_sex = 'P' GROUP BY village_code, resident_sex
+					SELECT b.village_id, '0' AS 'total_kk', '0' AS 'L', count(resident_sex) as 'P', '0' as total_penduduk FROM m_resident a JOIN m_resident_card b ON a.resident_card_no = b.resident_card_no WHERE a.resident_sex = 'P' GROUP BY village_id, resident_sex
 					UNION 
-					SELECT b.village_code, '0' AS 'total_kk', '0' AS 'L', '0' AS 'P', count(a.auto) as total_penduduk FROM m_resident a JOIN m_resident_card b ON a.resident_card_no = b.resident_card_no GROUP BY village_code
+					SELECT b.village_id, '0' AS 'total_kk', '0' AS 'L', '0' AS 'P', count(a.auto) as total_penduduk FROM m_resident a JOIN m_resident_card b ON a.resident_card_no = b.resident_card_no GROUP BY village_id
 					UNION
-					SELECT village_code, count(resident_card_no) AS 'total_kk', '0' AS 'L', '0' AS 'P', '0' AS total_penduduk FROM m_resident_card GROUP BY village_code
+					SELECT village_id, count(resident_card_no) AS 'total_kk', '0' AS 'L', '0' AS 'P', '0' AS total_penduduk FROM m_resident_card GROUP BY village_id
 					) AS X 
 					".$where." 
-					GROUP BY X.village_code";
+					GROUP BY X.village_id";
 
 		$sql = $this->db->query($sql);
 		return ($key) ? $sql->row() : $sql->result();
@@ -30,7 +30,7 @@ class Report_model extends CI_Model{
 		$sql 	= "SELECT a.resident_job, count(*) as total 
 				   FROM m_resident a
 				   JOIN m_resident_card b ON a.resident_card_no = b.resident_card_no
-				   WHERE b.village_code = '".$this->session->userdata('village_code')."'
+				   WHERE b.village_id = '".$this->session->userdata('village_id')."'
 				   GROUP BY resident_job";
 
 		return $this->db->query($sql)->result();
@@ -53,7 +53,7 @@ class Report_model extends CI_Model{
 	function model_penduduk_by_religi(){
 		$sql 	= $this->db->query("SELECT a.resident_religion as agama, COUNT(a.resident_religion) as total 
 									FROM m_resident a JOIN m_resident_card b ON a.resident_card_no = b.resident_card_no
-									WHERE b.village_code = '".$this->session->userdata('village_code')."'
+									WHERE b.village_id = '".$this->session->userdata('village_id')."'
 									GROUP BY resident_religion")->result();
 		$total = 0;
 		foreach($sql as $sum)
@@ -74,7 +74,7 @@ class Report_model extends CI_Model{
 						LEFT JOIN (
 						SELECT b.resident_status as resident_status, COUNT(b.resident_status) as total 
 						FROM m_resident b JOIN m_resident_card c ON b.resident_card_no = c.resident_card_no
-						WHERE c.village_code = '".$this->session->userdata('village_code')."'
+						WHERE c.village_id = '".$this->session->userdata('village_id')."'
 						GROUP BY resident_status 
 						) as x ON a.set_value = x.resident_status
 						WHERE a.set_key = 'STP'
@@ -86,47 +86,47 @@ class Report_model extends CI_Model{
 	}
 
 	function model_desa(){
-		$sql 	= "SELECT village_code, SUM(posting_total) as posting_total, SUM(letter_total) as letter_total  -- SUM(user_total) as user_total, SUM(user_current) as user_current, 
+		$sql 	= "SELECT x.village_id,b.village_name, SUM(x.letter_total) as letter_total  -- SUM(posting_total) as posting_total,  -- SUM(user_total) as user_total, SUM(user_current) as user_current, 
 					FROM (
-						SELECT village_code, count(*) as user_total, '' as user_current, '' as posting_total, '' as letter_total from m_user WHERE user_isadmin = 'No' GROUP BY village_code 
+						SELECT village_id, count(*) as user_total, '' as user_current, '' as posting_total, '' as letter_total from m_user WHERE user_isadmin = 'No' GROUP BY village_id 
 						UNION
-						SELECT village_code, '' as user_total, count(*) as user_current, '' as posting_total, '' as letter_total from m_user WHERE user_islogin = 1 AND user_isadmin = 'No' GROUP BY village_code 
+						SELECT village_id, '' as user_total, count(*) as user_current, '' as posting_total, '' as letter_total from m_user WHERE user_islogin = 1 AND user_isadmin = 'No' GROUP BY village_id 
 						UNION
-						SELECT village_code, '' as user_total, '' as user_current, count(*) as posting_total, '' as letter_total from m_info GROUP BY village_code 
-						UNION
-						SELECT village_code, '' as user_total, '' as user_current, '' as posting_total, count(*) as letter_total from t_letter_log GROUP BY village_code
-					) as x
-					GROUP BY village_code";
+					--	SELECT village_id, '' as user_total, '' as user_current, count(*) as posting_total, '' as letter_total from m_info GROUP BY village_id 
+					--	UNION
+						SELECT village_id, '' as user_total, '' as user_current, '' as posting_total, count(*) as letter_total from t_letter_log GROUP BY village_id
+					) as x JOIN m_village b ON x.village_id = b.village_id
+					GROUP BY x.village_id";
 		$sql = $this->db->query($sql)->result();
 		return $sql;
 	}
 
 	function model_user(){
-		$sql 	= "SELECT village_code, user_id, user_visited, SUM(resident) as resident_total, SUM(posting) as posting_total, SUM(letter) as letter_total, SUM(album) as album_total 
+		$sql 	= "SELECT village_id, user_id, user_visited, SUM(resident) as resident_total, SUM(posting) as posting_total, SUM(letter) as letter_total, SUM(album) as album_total 
 					FROM (
-						SELECT village_code, user_id, user_visited, '' as resident, '' as posting, '' as letter, '' as album FROM m_user WHERE user_isadmin = 'No' 
+						SELECT village_id, user_id, user_visited, '' as resident, '' as posting, '' as letter, '' as album FROM m_user WHERE user_isadmin = 'No' 
 						UNION
-						SELECT b.village_code, a.resident_addby, '' as user_visited, COUNT(a.resident_addby) as resident, '' as posting, '' as letter, '' as album FROM m_resident a JOIN m_resident_card b ON a.resident_card_no = b.resident_card_no GROUP BY village_code, resident_addby 
+						SELECT b.village_id, a.resident_addby, '' as user_visited, COUNT(a.resident_addby) as resident, '' as posting, '' as letter, '' as album FROM m_resident a JOIN m_resident_card b ON a.resident_card_no = b.resident_card_no GROUP BY village_id, resident_addby 
 						UNION
-						SELECT village_code, info_addby, '' as user_visited, '' as resident, COUNT(info_addby) as posting, '' as letter, '' as album FROM m_info GROUP BY village_code, info_addby 
+						SELECT village_id, info_addby, '' as user_visited, '' as resident, COUNT(info_addby) as posting, '' as letter, '' as album FROM m_info GROUP BY village_id, info_addby 
 						UNION
-						SELECT village_code, letter_addby, '' as user_visited, '' as resident, '' as posting, COUNT(letter_addby) as letter, '' as album FROM t_letter_log GROUP BY village_code, letter_addby 
+						SELECT village_id, letter_addby, '' as user_visited, '' as resident, '' as posting, COUNT(letter_addby) as letter, '' as album FROM t_letter_log GROUP BY village_id, letter_addby 
 						UNION
-						SELECT a.village_code, b.alb_addby, '' as user_visited, '' as resident, '' as posting, '' as letter, COUNT(*) as album FROM m_album a INNER JOIN m_album_detail b ON a.alb_id = b.alb_id GROUP BY village_code, alb_addby
+						SELECT a.village_id, b.alb_addby, '' as user_visited, '' as resident, '' as posting, '' as letter, COUNT(*) as album FROM m_album a INNER JOIN m_album_detail b ON a.alb_id = b.alb_id GROUP BY village_id, alb_addby
 					) as x
-					GROUP BY village_code, user_id";
+					GROUP BY village_id, user_id";
 		$sql = $this->db->query($sql)->result();
 		return $sql;
 	}
 
 	function model_surat($key = ''){
-		$where = !empty($key) ? 'where a.village_code = "'.$key.'"' : '';
+		$where = !empty($key) ? 'where a.village_id = "'.$key.'"' : '';
 
 		$sql 	= "SELECT b.set_value as letter_name, count(a.letter_code) as total 
 					FROM t_letter_log a
 					LEFT JOIN m_setting b ON a.letter_code = b.set_id
 					".$where."
-					GROUP BY village_code, letter_code
+					GROUP BY village_id, letter_code
 					ORDER BY set_value ASC";
 
 		$sql = $this->db->query($sql)->result();

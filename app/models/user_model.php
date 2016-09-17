@@ -41,7 +41,7 @@ class User_model extends CI_Model{
 	
 	function master_process($data){
 		
-    	$mdata 		= array('village_code'		=> current(explode('_',$data['village_code'])),
+    	$mdata 		= array('village_id'		=> current(explode('_',$data['village_id'])),
 							'user_fullname'		=> $data['user_fullname'],
 							'user_isgroup'		=> $data['user_isgroup'],
 							'group_id'			=> $data['group_id'],
@@ -124,7 +124,7 @@ class User_model extends CI_Model{
 	function get_user_detail($key){
 		$sql 	= $this->db->select('a.*, b.*, c.group_name')
 							->from('m_user a')
-							->join('m_village b','a.village_code = b.village_code','left')
+							->join('m_village b','a.village_id = b.village_id','left')
 							->join('m_group c','a.group_id = c.group_id','left')
 							->where('a.user_id',$key)->get()->result();
 		return $sql;
@@ -132,20 +132,20 @@ class User_model extends CI_Model{
 	
 	//insert_user_shop
 	function insert_user_village($data){
-		$village_code 	= array_reverse($data['village_code']);
+		$village_id 	= array_reverse($data['village_id']);
 		$village 		= array();
 		
 		$this->db->where('user_id',$data['key'])->delete('m_user_shop');
-		if($village_code[0] == 'all'){
-			$sql = $this->db->select('village_code')->from('m_village')->where('village_status','active')->get()->result();
+		if($village_id[0] == 'all'){
+			$sql = $this->db->select('village_id')->from('m_village')->where('village_status','active')->get()->result();
 			foreach($sql as $row){
-				$village[] = array('village_code' 	=> $row->village_code,
+				$village[] = array('village_id' 	=> $row->village_id,
 								   'user_id'		=> $data['key']);
 			}
 			
 		}else{
-			foreach($village_code as $row){				
-				$village[] = array('village_code' 	=> $row,
+			foreach($village_id as $row){				
+				$village[] = array('village_id' 	=> $row,
 								   'user_id'		=> $data['key']);
 			}
 		}

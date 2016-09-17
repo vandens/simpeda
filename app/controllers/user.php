@@ -305,7 +305,7 @@ class User extends CI_Controller {
 					array( 'db' => 'user_id', 		'dt' => 0 ),
 					array( 'db' => 'user_fullname', 'dt' => 1 ),
 					array( 'db' => 'user_email', 	'dt' => 2 ),
-					array( 'db' => 'village_code', 	'dt' => 3 ),
+					array( 'db' => 'village_name', 	'dt' => 3 ),
 					array( 'db' => 'user_isgroup', 	'dt' => 4 ),
 					array( 'db' => 'user_visited', 	'dt' => 5 ),
 					array(
@@ -337,7 +337,7 @@ class User extends CI_Controller {
 				);		
 				
 				$this->load->library('datatable');
-				echo json_encode($this->datatable->simple( $_GET, $this->config->item('db'), 'm_user', 'user_id', $columns ));	
+				echo json_encode($this->datatable->simple( $_GET, $this->config->item('db'), 'list_user', 'user_id', $columns ));	
 			}	
 	}
 

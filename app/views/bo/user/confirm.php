@@ -22,7 +22,7 @@
 									<div class="profile-info-row">
 										<div class="profile-info-name" style='width:175px'> Desa</div>
 											<div class="profile-info-value ">
-												<span class="editable"><?php echo end(explode('_', $village_code)); ?></span>
+												<span class="editable"><?php echo end(explode('_', $village_id)); ?></span>
 											</div>				
 								
 									</div>		

@@ -82,7 +82,7 @@ class Login extends CI_Controller {
 		$sql 	= $this->user_model->get_user_detail($post['user_id']); #$this->db->get_where('m_user',array('user_id'=>$this->input->post('user_id'),'user_status'=>'active'))->result();
 		foreach($sql as $data);
 		#echo sha1($data->user_id.md5($data->user_id.$post['user_pass'])); die;
-	
+	echo $data->user_pass.' === '.sha1($data->user_id.md5($data->user_id.$post['user_pass'])); die;
 		if($post['word'] != $post['captcha']){
 			$this->form_validation->set_message('signin_check', 'Captcha tidak sesuai, Coba lagi!');
 			return false;

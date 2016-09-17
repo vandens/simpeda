@@ -10,11 +10,15 @@ class General_model extends CI_Model{
 
 	public function set_user_login($data){
 			$admin 		= ($data->user_isadmin == 'Yes') ? TRUE : FALSE;
-			$data 		= array('village_code'		=> $data->village_code,
+			$data 		= array('village_id'		=> $data->village_id,
+								'village_code'		=> $data->village_code,
 								'village_head'		=> $data->village_head,
 								'village_name'		=> $data->village_name,
 								'village_staff'		=> $data->village_staff,
 								'village_staff_no'	=> $data->village_staff_no,
+								'province'			=> $data->province,
+								'district'			=> $data->district,
+								'subdistrict'		=> $data->subdistrict,
 								'village_address'	=> $data->village_address,
 								'user_id'			=> $data->user_id,
 								'user_fullname'		=> $data->user_fullname,
@@ -56,7 +60,7 @@ class General_model extends CI_Model{
 
 	public function get_old_pass($data){
 		$sql 	= $this->db->where('user_id',$this->session->userdata('user_id'))
-						   ->where('village_code',$this->session->userdata('village_code'))
+						   ->where('village_id',$this->session->userdata('village_id'))
 						   ->get('m_user');
 		return $sql->row();
 	}

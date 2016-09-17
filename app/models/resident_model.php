@@ -9,7 +9,7 @@ class Resident_model extends CI_Model{
 	function drop_list(){
 		$list 					= new stdClass();
 		
-		if($this->session->userdata('admin') === FALSE) $this->db->where('village_code',$this->session->userdata('village_code'));
+		if($this->session->userdata('admin') === FALSE) $this->db->where('village_id',$this->session->userdata('village_id'));
 		
 		$list->list_village		= $this->db->where('village_status','active')
 										   ->get('m_village')->result();
@@ -18,9 +18,9 @@ class Resident_model extends CI_Model{
 	}
 
 	function get_resident_data($key){
-		$sql 	= $this->db->select('c.*, b.village_name, a.resident_card_village, a.resident_card_village_no')
+		$sql 	= $this->db->select('c.*, b.village_id, b.village_name, a.resident_card_village, a.resident_card_village_no')
 							->from ('m_resident_card a')
-							->join ('m_village b','a.village_code = b.village_code','left')
+							->join ('m_village b','a.village_id = b.village_id','left')
 							->join ('m_resident c','a.resident_card_no = c.resident_card_no','left')
 							->where('c.resident_no',$key)
 							->get();
@@ -56,12 +56,13 @@ class Resident_model extends CI_Model{
 								  "substr(b.resident_card_village_no, 4,5) as 'RW'",
 								  "b.resident_card_village as 'Dusun'",
 								  "c.village_name as 		'Desa/Kelurahan'",
+								  "c.province","c.district","c.subdistrict","c.village_head","c.village_staff","c.village_staff_no"
 
 								  )
 						)
 						->from('m_resident a')
 						->join('m_resident_card b','a.resident_card_no = b.resident_card_no')
-						->join('m_village c','b.village_code = c.village_code')
+						->join('m_village c','b.village_id = c.village_id')
 						->where('a.resident_no',$key)
 						->get()->row();
 
@@ -74,12 +75,12 @@ class Resident_model extends CI_Model{
 
 
 	function get_resident_card_list($key, $single = false){
-		$fields = ($single) ? 'a.*' : 'b.resident_no, a.resident_card_no, b.resident_fm_role, a.resident_card_village, a.resident_card_village_no, b.*, d.village_name';
+		$fields = ($single) ? 'a.*,d.province, d.district, d.subdistrict' : 'b.resident_no, a.resident_card_no, b.resident_fm_role, a.resident_card_village, a.resident_card_village_no, b.*, d.village_name, d.province, d.district, d.subdistrict, d.village_head, d.village_staff, d.village_staff_no';
 		$sql	= $this->db->select($fields)
 						   ->from('m_resident_card a')
 						   ->join('m_resident b','a.resident_card_no = b.resident_card_no','left')
 						   ->join('m_setting c','b.resident_fm_role = c.set_value')
-						   ->join('m_village d','a.village_code = d.village_code')
+						   ->join('m_village d','a.village_id = d.village_id')
 						   ->where('a.resident_card_no',$key)
 						   ->order_by('c.set_order ASC')
 						   ->get();
@@ -87,10 +88,10 @@ class Resident_model extends CI_Model{
 		return ($single) ? $sql->row() : $sql->result();
 	}
 
-	function get_village_code($key){
-		$sql 	= $this->db->query('SELECT CONCAT(a.village_code,"_",b.village_name) as village_code, a.resident_card_no, a.resident_card_village, a.resident_card_village_no 
+	function get_village_id($key){
+		$sql 	= $this->db->query('SELECT CONCAT(a.village_id,"_",b.village_name) as village_id, a.resident_card_no, a.resident_card_village, a.resident_card_village_no 
 									 FROM m_resident_card a 
-									 LEFT JOIN m_village b ON a.village_code = b.village_code
+									 LEFT JOIN m_village b ON a.village_id = b.village_id
 									 WHERE a.resident_card_no = ?',$key)->row();
 		return $sql;
 	}
@@ -102,7 +103,7 @@ class Resident_model extends CI_Model{
 		$data['resident_no']     	 	 = !isset($data['is_resident_no']) 	? $data['resident_no'] : 'R'.date('Ymd').strtotime(date('Y-m-d H:i:s'));
 		
 		if(empty($key)){
-			$this->db->insert('m_resident_card',array('village_code'			=> $data['village_code'],
+			$this->db->insert('m_resident_card',array('village_id'				=> $data['village_id'],
 													  'resident_card_no'		=> $data['resident_card_no'],
 												  	  'resident_card_village'	=> $data['resident_card_village'],
 												  	  'resident_card_village_no'=> $data['resident_card_village_no'],
@@ -115,7 +116,7 @@ class Resident_model extends CI_Model{
 		unset($data['sub']);
 		unset($data['val']);
 		unset($data['mod']);
-		unset($data['village_code']);
+		unset($data['village_id']);
 		unset($data['resident_card_village']);
 		unset($data['resident_card_village_no']);
 		unset($data['is_card_no']);
@@ -136,7 +137,7 @@ class Resident_model extends CI_Model{
 		$update['resident_card_updatetime']	= date('Y-m-d H:i:s');
 
 		if($this->session->userdata('admin'))
-			$update['village_code']			= $data['village_code'];
+			$update['village_id']			= $data['village_id'];
 
 		$this->db->where('resident_card_no',$data['key'])
 				 ->update('m_resident_card',$update);
@@ -158,7 +159,7 @@ class Resident_model extends CI_Model{
 		unset($data['edit']);
 		unset($data['auto']);
 
-		unset($data['village_code']);
+		unset($data['village_id']);
 		unset($data['count_family']);
 		unset($data['resident_card_status']);
 		unset($data['resident_card_village']);

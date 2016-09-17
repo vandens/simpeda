@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -13,10 +14,10 @@
 						<div class="login-container">
 							<div class="center">						
 								<h1>
-									<span class="purple">Simpeda</span>
+									<span class="purple">AdminDes</span>
 									<span class="white" id="id-text2">Online</span>
 								</h1>
-								<h4 class="blue" id="id-company-text">&copy; Kecamatan Cisoka</h4>
+								<h4 class="blue" id="id-company-text">&copy; admin-desa.net</h4>
 								<img src='<?php echo base_url('media/img/logo.png');?>' style='width:80px;'>
 							</div>
 

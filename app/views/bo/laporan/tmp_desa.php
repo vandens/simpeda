@@ -113,9 +113,9 @@ $(function () {
   //          name: 'Pengguna Login',
   //          data: <?php echo str_replace('"',"",json_encode($pen)); ?>,
   //      }, {
-            name: 'Jumlah Posting',
-            data: <?php echo str_replace('"',"",json_encode($lk)); ?>,
-        }, {
+  //          name: 'Jumlah Posting',
+  //          data: <?php echo str_replace('"',"",json_encode($lk)); ?>,
+  //      }, {
             name: 'Jumlah Surat',
             data: <?php echo str_replace('"',"",json_encode($pr)); ?>,
         }]

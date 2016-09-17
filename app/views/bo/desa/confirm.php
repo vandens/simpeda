@@ -8,11 +8,30 @@
 					<div class='pull-right'>	
 						<a data-rel='tooltip' href='javascript:history.back()' class='btn btn-success btn-white btn-round btn-sm fa fa-arrow-left'  title='Kembali' data-placement='bottom'></a>
 						<?php if(isset($val)) echo ($this->_priv->DESC || $this->_priv->DESU) ? "<button data-rel='tooltip' type='submit' name='submit' value='".$val."'  class='btn btn-danger btn-white btn-round btn-sm fa ace-icon fa fa-share-square-o'  title='Konfirmasi' data-placement='bottom'></button>" : ''; ?>
+						<?php echo ($this->_priv->DESR) ? "<a data-rel='tooltip' href='".base_url('desa/cetak/'.$this->uri->segment(3))."' target='_blanks' class='btn btn-danger btn-white btn-round btn-sm fa ace-icon fa fa-print'  title='Cetak' data-placement='bottom'></a>" : ''; ?>
 					</div>
 					</div>
 						<div class="widget-body">
 							<div class="widget-main">		
-							
+							<div class="col-xs-12 col-sm-12">
+							<h4 class="header smaller lighter green">Regional</h4>
+								<div class="profile-user-info profile-user-info-striped">
+									<div class="profile-info-row">										
+										<div class="profile-info-name" style='width:100px'>Propinsi</div>
+										<div class="profile-info-value ">
+											<span class="editable"><?php echo $confirm['province']['province']; ?></span>
+										</div>										
+										<div class="profile-info-name" style='width:100px'>Kabupaten</div>
+										<div class="profile-info-value ">
+											<span class="editable"><?php echo $confirm['district']['district']; ?></span>
+										</div>										
+										<div class="profile-info-name" style='width:100px'>Kecamatan</div>
+										<div class="profile-info-value ">
+											<span class="editable"><?php echo $confirm['subdistrict']['subdistrict']; ?></span>
+										</div>												
+									</div>			
+								</div>
+							</div>
 
 							<div class="col-xs-12 col-sm-12">
 							<h4 class="header smaller lighter green">Profil Desa</h4>

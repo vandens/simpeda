@@ -38,7 +38,7 @@
 |
 */
 
-$route['default_controller'] 	= "index";
+$route['default_controller'] 	= "login";
 
 #(strpos(key($_GET),'_') || is_numeric(key($_GET))) ? $route[':any'] = 'index/info' : '';
 $route['kabar-berita:any'] = 'index/info';

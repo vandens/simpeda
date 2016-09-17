@@ -18,7 +18,7 @@
 									<div class="profile-info-row">
 										<div class="profile-info-name" style='width:175px'> Kode / Nama Desa</div>
 											<div class="profile-info-value ">
-												<span class="editable"><?php echo $village_code.' / '.$village_name;?></span>
+												<span class="editable"><?php echo $village_id.' / '.$village_name;?></span>
 											</div>				
 								
 									</div>
@@ -106,13 +106,13 @@
 									<div class="profile-info-row">
 										<div class="profile-info-name"> Ditambahkan Oleh, Waktu</div>
 											<div class="profile-info-value ">
-												<span class="editable"><?php echo $resident_addby.', '.date('d M Y H:i:s',strtotime($resident_addtime));?></span>
+												<span class="editable"><?php echo $resident_addby; echo ($resident_addtime) ? ', '.date('d M Y H:i:s',strtotime($resident_addtime)) : '';?></span>
 											</div>	
 									</div>
 									<div class="profile-info-row">
 										<div class="profile-info-name"> Diupdate Oleh, Waktu</div>
 											<div class="profile-info-value ">
-												<span class="editable"><?php echo $resident_updateby.', '.date('d M Y H:i:s',strtotime($resident_updatetime));?></span>
+												<span class="editable"><?php echo $resident_updatetime; echo ($resident_updatetime) ? ', '.date('d M Y H:i:s',strtotime($resident_updatetime)) : '';?></span>
 											</div>	
 									</div>						
 											

@@ -91,7 +91,7 @@ class Keluarga extends CI_Controller {
 		
 		if($this->_priv->FAMC || $this->_priv->FAMU){
 					
-			empty($post['key']) ? $this->form_validation->set_rules('village_code', 'Desa', 'required|max_length[25]|xss_clean') : '';
+			empty($post['key']) ? $this->form_validation->set_rules('village_id', 'Desa', 'required|max_length[25]|xss_clean') : '';
 			empty($post['key']) ? $this->form_validation->set_rules('resident_no', 'No KTP', 'required|max_length[22]|xss_clean') : '';
 			$this->form_validation->set_rules('resident_name', 'Nama Keluarga', 'xss_clean|max_length[25]');
 			$this->form_validation->set_rules('resident_card_no', 'No Kartu Keluarga', 'xss_clean|max_length[25]');
@@ -104,7 +104,7 @@ class Keluarga extends CI_Controller {
 						
 						if(!empty($post['key'])){
 
-							$sql 	= $this->resident_model->get_village_code($post['key']);
+							$sql 	= $this->resident_model->get_village_id($post['key']);
 							foreach($sql as $keys => $vals)
 								$data[$keys] = $vals;
 						}
@@ -142,8 +142,9 @@ class Keluarga extends CI_Controller {
 
 		$data['val']		= 'confirm';
 		$data['edit']		= true;
-		$data['dlist']		= $this->general->droplist_setting(array('PER','GOL','REL','EDU','STK','STT','STP','JOB'));
-
+		$data['dlist']		= $this->general->droplist_setting(array('PER','GOL','REL','EDU','STK','STT','STP','JOB','PRO','KAB','KEC'));
+		
+		
 
 		if(!empty($key))
 		{
@@ -153,7 +154,6 @@ class Keluarga extends CI_Controller {
 			foreach ($sql as $keys => $vals) {
 				$data[$keys] = $vals;
 			}
-
 		}
 
 		$data['contain']	= $this->load->view($view,$data,true);
@@ -177,7 +177,7 @@ class Keluarga extends CI_Controller {
 			try {
 					$this->db->trans_begin();					
 
-					$data['village_code']	= current(explode('_', $data['village_code']));
+					$data['village_id']	= current(explode('_', $data['village_id']));
 
 					if($data['edit'] == 'edit')
 						$this->resident_model->edit_family($data);
@@ -239,7 +239,8 @@ class Keluarga extends CI_Controller {
 				$data[$key] = $value;
 			}
 			$view 			= strtolower('bo/'.__CLASS__.'/print');
-		}					
+		}	
+					
 		$data['sub']		= 'Cetak Kartu Keluarga : '.$data['resident_name'];
 		$data['mod']		= 'FAMT';
 
@@ -269,7 +270,8 @@ class Keluarga extends CI_Controller {
 					
 
 				$columns 	= array(
-					array( 'db' => 'village_code', 		'dt' => 0 ),
+					array( 'db'	=> 'village_id'),
+					array( 'db' => 'village_name', 		'dt' => 0 ),
 				#	array( 'db' => 'resident_no', 		'dt' => 1 ), 
 					array( 'db' => 'resident_card_no', 	'dt' => 1 ),
 					array( 'db' => 'resident_name', 	'dt' => 2 ),	

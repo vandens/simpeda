@@ -21,14 +21,14 @@
 								<div class="form-group">
 									<label class="col-sm-2 control-label" for="form-field-1"> Desa</label>
 									<div class="col-sm-3">											
-										<select name='village_code' <?php echo $disabled; ?> class='form-control col-sm-4' >
+										<select name='village_id' <?php echo $disabled; ?> class='form-control col-sm-4' >
 											<option value = ''>Pilih Desa</option>
 											<?php	
 											foreach($this->_droplist->list_village as $v)
-											{
+											{	
 												#$sel 	= in_array(strtoupper($v->shop_id),$user_shop) ? 'selected="selected"' : '';
-												$sel 	= ($v->village_code == $village_code) ? 'selected="selected"' : '';
-												echo '<option value="'.$v->village_code.'_'.$v->village_name.'" '.$sel.'>'.ucwords(strtolower($v->village_name)).'</option>';
+												$sel 	= ($v->village_id == $village_id) ? 'selected="selected"' : '';
+												echo '<option value="'.$v->village_id.'_'.$v->village_name.'" '.$sel.'>'.ucwords(strtolower($v->village_name)).'</option>';
 											}
 											?>
 											<!--<option value='all'>Semua Toko</option>-->

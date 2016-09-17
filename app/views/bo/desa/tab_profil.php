@@ -5,12 +5,59 @@
 			<div class="widget-body">
 				<div class="widget-main">	
 
+					<h4 class="header smaller lighter red">Regional</h4>
+					<div class="space-2"></div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="form-field-1"> Propinsi</label>
+						<div class="col-sm-6">						
+						<select name='province'>
+						<option value = ''>Pilih Propinsi</option>
+						<?php 
+						foreach($dlist['PRO'] as $val){
+							$sel 	= (ucwords($province)	 == $val->set_value) ? 'selected="selected"' : '';
+							echo '<option value="'.$val->set_value.'" '.$sel.'>'.ucwords(strtolower($val->set_value)).'</option>';
+						}
+						?>
+						</select>
+						</div>
+					</div>	
+					<div class="space-2"></div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="form-field-1"> Kabupaten</label>
+						<div class="col-sm-6">						
+						<select name='district'>
+						<option value = ''>Pilih Kabupaten</option>
+						<?php 
+						foreach($dlist['KAB'] as $val){
+							$sel 	= (ucwords($district)	 == $val->set_value) ? 'selected="selected"' : '';
+							echo '<option value="'.$val->set_value.'" '.$sel.'>'.ucwords(strtolower($val->set_value)).'</option>';
+						}
+						?>
+						</select>
+						</div>
+					</div>	
+					<div class="space-2"></div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="form-field-1"> Kecamatan</label>
+						<div class="col-sm-6">						
+						<select name='subdistrict'>
+						<option value = ''>Pilih Kecamatan</option>
+						<?php 
+						foreach($dlist['KEC'] as $val){
+							$sel 	= (ucwords($subdistrict)	 == $val->set_value) ? 'selected="selected"' : '';
+							echo '<option value="'.$val->set_value.'" '.$sel.'>'.ucwords(strtolower($val->set_value)).'</option>';
+						}
+						?>
+						</select>
+						</div>
+					</div>	
+					
 					<h4 class="header smaller lighter red">Profil Desa</h4>
 					<div class="space-2"></div>
 					<div class="form-group">
 						<label class="col-sm-2 control-label" for="form-field-1"> Kode Desa</label>
 						<div class="col-sm-6">						
-							<input type='text' name='profil_kode_desa' class='col-xs-6 col-sm-6' <?php echo isset($data['profil_kode_desa']) ? 'disabled' : ''; ?> value='<?php echo $data['profil_kode_desa']; ?>' required onkeypress='this.value=ignoreSpaces(this.value); return AlfaNum(event);' onkeyup='javascript:this.value = this.value.toLowerCase();'>
+							<input type='text' name='profil_kode_desa' placeholder='Kode Desa' class='col-xs-6 col-sm-6' <?php echo !empty($data['profil_kode_desa']) ? 'disabled' : ''; ?> value='<?php echo $data['profil_kode_desa']; ?>' required onkeypress='this.value=ignoreSpaces(this.value); return AlfaNum(event);' onkeyup='javascript:this.value = this.value.toLowerCase();'>
 						</div>
 					</div>	
 					<div class="space-2"></div>
@@ -47,7 +94,7 @@
 					<div class="form-group">
 						<label class="col-sm-2 control-label" for="form-field-1"> No Telepon</label>
 						<div class="col-sm-6">						
-							<input type='text' name='profil_no_register' class='col-xs-12 col-sm-12' placeholder='No Telp' value='<?php echo $data['profil_no_register']; ?>' onkeypress='this.value=ignoreSpaces(this.value); return AlfaOnly(event);' onkeyup='javascript:this.value = this.value.toLowerCase();'>
+							<input type='text' name='profil_no_register' class='col-xs-12 col-sm-12' placeholder='No Telp' value='<?php echo $data['profil_no_register']; ?>' onkeypress='this.value=ignoreSpaces(this.value); return NumOnly(event);' onkeyup='javascript:this.value = this.value.toLowerCase();'>
 						</div>
 					</div>
 					<div class="space-2"></div>

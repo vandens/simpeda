@@ -20,13 +20,13 @@
 								<div class="form-group">
 									<label class="col-sm-2 control-label" for="form-field-1"> Desa</label>
 									<div class="col-sm-10">											
-										<select name='village_code'>
+										<select name='village_id'>
 											<?php										
 											foreach($this->_droplist->list_village as $v)
 											{
 												#$sel 	= in_array(strtoupper($v->shop_id),$user_shop) ? 'selected="selected"' : '';
-												$sel 	= ($v->village_code == $village_code) ? 'selected="selected"' : '';
-												echo '<option value="'.$v->village_code.'_'.$v->village_name.'" '.$sel.'>'.ucwords(strtolower($v->village_name)).'</option>';
+												$sel 	= ($v->village_id == $village_id) ? 'selected="selected"' : '';
+												echo '<option value="'.$v->village_id.'_'.$v->village_name.'" '.$sel.'>'.ucwords(strtolower($v->village_name)).'</option>';
 											}
 											?>
 											<!--<option value='all'>Semua Toko</option>-->
@@ -59,7 +59,7 @@
 											$checkN = ($user_isgroup == 'No') ? 'checked' : '';?>
 											<label><input type='radio' <?php echo $checkY; ?> name='user_isgroup' class='isgrup' value='Yes'> Yes</label>
 										
-											<label><input type='radio' <?php echo $checkN; ?> name='user_isgroup' class='isgrup' value='No'> No</label>
+										<!--	<label><input type='radio' <?php echo $checkN; ?> name='user_isgroup' class='isgrup' value='No'> No</label>-->
 										
 										</div>
 										
