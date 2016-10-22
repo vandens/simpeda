@@ -57,7 +57,7 @@
 					<div class="form-group">
 						<label class="col-sm-2 control-label" for="form-field-1"> Kode Desa</label>
 						<div class="col-sm-6">						
-							<input type='text' name='profil_kode_desa' placeholder='Kode Desa' class='col-xs-6 col-sm-6' <?php echo !empty($data['profil_kode_desa']) ? 'disabled' : ''; ?> value='<?php echo $data['profil_kode_desa']; ?>' required onkeypress='this.value=ignoreSpaces(this.value); return AlfaNum(event);' onkeyup='javascript:this.value = this.value.toLowerCase();'>
+							<input type='text' name='profil_kode_desa' placeholder='Kode Desa' class='col-xs-6 col-sm-6' <?php echo !empty($data['profil_kode_desa']) ? '' : ''; ?> value='<?php echo $data['profil_kode_desa']; ?>' required onkeypress='this.value=ignoreSpaces(this.value); return AlfaNum(event);' onkeyup='javascript:this.value = this.value.toLowerCase();'>
 						</div>
 					</div>	
 					<div class="space-2"></div>
